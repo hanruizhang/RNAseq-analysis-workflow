@@ -69,6 +69,7 @@ If you need a refresher, or have never used R before, please step through these 
 	| HMDM M1 Rep1  | SRR1182376 | M1-HMDM, Replicate 1 |  
 	| HMDM M1 Rep2  | SRR1182377 | M1-HMDM, Replicate 2 |  
 	| HMDM M1 Rep3  | SRR2910664 | M1-HMDM, Replicate 3 |   
+	      
 	**HMDM**: human monocyte-derived macrophages;  
 	**M0**: Resting HMDM without stimulation;   
 	**M1**: HMDM treated with endotoxin and interferon-gamma for 18-20 hours to induce inflammatoryresponse.   
