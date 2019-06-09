@@ -1,4 +1,3 @@
-# RNA-seq Data Analysis Workflow
 **07/10/2019** [Zhang Lab@Columbia](https://hanruizhang.github.io/zhanglab/) by [Hanrui Zhang](https://github.com/hanruizhang)
 
 ## 1. Introduction to RNA-seq
@@ -58,7 +57,10 @@ If you need a refresher, or have never used R before, please step through these 
 	_If successful, the test should connect to NCBI, download a small amount of data from SRR390728 and the reference sequence needed to extract the data, and stream the first 5 spots of the file ("-X 5" option) to the screen ("-Z" option)._
 *  Now we are ready to download the fastq files we will analyze
 	* Here are our RNA-seq data in GEO with accession number [GSE55536](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55536). 
-	![](/images/HMDM_IPSDM.png)
+<div> 
+  <img src="{{ '/images/HMDM_IPSDM.png' | absolute_url }}" alt="HMDM_IPSDM" width="600">
+</div>   
+
 	* There are totally 33 samples. Let's try 6 samples.   
 
 	| Sample ID     | SRR        | Description          |  
