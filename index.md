@@ -81,12 +81,13 @@ If you need a refresher, or have never used R before, please step through these 
 	
 	**Make sure you "cd" into /bin first.**  
 		
-			$ ./fastq-dump -X 1000000 --split-files SRR1182374     
-	  		$ ./fastq-dump -X 1000000 --split-files SRR1182375  
+			$ ./fastq-dump -X 1000000 --split-files SRR1182374  
+			$ ./fastq-dump -X 1000000 --split-files SRR1182375  
 			$ ./fastq-dump -X 1000000 --split-files SRR2910663  
-			$ ./fastq-dump -X 1000000 --split-files SRR1182376 
+			$ ./fastq-dump -X 1000000 --split-files SRR1182376  
 			$ ./fastq-dump -X 1000000 --split-files SRR1182377  
 			$ ./fastq-dump -X 1000000 --split-files SRR2910664   
+
 * Alternatively, can use "prefetch" to download the fastq file.  
 	                `$ ./sratoolkit.2.9.1-1-mac64/bin/prefetch SRR1182374`         
 			
