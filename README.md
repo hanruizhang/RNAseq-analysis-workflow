@@ -1,1 +1,1 @@
-# RNAseq-analysis-workflow
+# RNA-seq Analysis Workflow
