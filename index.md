@@ -73,13 +73,13 @@ If you need a refresher, or have never used R before, please step through these 
 	| HMDM M1 Rep2  | SRR1182377 | M1-HMDM, Replicate 2 |  
 	| HMDM M1 Rep3  | SRR2910664 | M1-HMDM, Replicate 3 |   
 	      
-**HMDM**: human monocyte-derived macrophages;  
-**M0**: Resting HMDM without stimulation;   
-**M1**: HMDM treated with endotoxin and interferon-gamma for 18-20 hours to induce inflammatoryresponse.   
+	**HMDM**: human monocyte-derived macrophages;  
+	**M0**: Resting HMDM without stimulation;   
+	**M1**: HMDM treated with endotoxin and interferon-gamma for 18-20 hours to induce inflammatoryresponse.   
 
 * Use the command line below in terminal to download the fastq file (for now let's do it one by one). The code means "to only download the first 1M reads from SRR, and split the pair-end reads".   
 	
-**Make sure you "cd" into /bin first.**  
+	**Make sure you "cd" into /bin first.**  
 		
 			$ ./fastq-dump -X 1000000 --split-files SRR1182374     
 	  		$ ./fastq-dump -X 1000000 --split-files SRR1182375  
@@ -102,7 +102,9 @@ If you need a refresher, or have never used R before, please step through these 
         $ salmon index -t gencode.v30.transcripts.fa.gz -i gencode.v30_salmon_0.14.0 --gencode
 
 ### 3.5 Perform quantification using Salmon
-* Make sure the Salmon index folder and all of your fastq files are in the same directory and you are in the directory. 
+
+  * Make sure the Salmon index folder and all of your fastq files are in the same directory and you are in the directory.   
+
 
 		$ salmon quant -i gencode.v30_salmon_0.14.0 -p 8 --libType A --validateMappings --gcBias --biasSpeedSamp 5 -1 SRR1182374_1.fastq  -2 SRR1182374_2.fastq   -o M0_HMDM_1
 		$ salmon quant -i gencode.v30_salmon_0.14.0 -p 8 --libType A --validateMappings --gcBias --biasSpeedSamp 5 -1 SRR1182375_1.fastq  -2 SRR1182375_2.fastq   -o M0_HMDM_2
@@ -127,7 +129,7 @@ If you need a refresher, or have never used R before, please step through these 
 
 	     `$ multiqc .`   
 	     
-**Multiqc will search in the current directory, so make sure you are in the directory with Salmon Quant folders.**
+	**Multiqc will search in the current directory, so make sure you are in the directory with Salmon Quant folders.**
 * You may read the documents to understand how to interpret the QC data.  
 	  
 ## 5.  tximport: Importing salmon’s transcript-level quantifications and aggregate them to the gene level for gene-level differential expression analysis 
