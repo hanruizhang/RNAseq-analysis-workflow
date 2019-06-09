@@ -128,7 +128,7 @@ If you need a refresher, or have never used R before, please step through these 
          
 * Run multiqc
 
-	     `$ multiqc .`   
+	     $ multiqc .    
 	     
 	**Multiqc will search in the current directory, so make sure you are in the directory with Salmon Quant folders.**
 * You may read the documents to understand how to interpret the QC data.  
