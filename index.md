@@ -56,7 +56,8 @@ If you need a refresher, or have never used R before, please step through these 
 	* For Windows:fastq-dump.exe -X 5 -Z SRR390728.   
 	_If successful, the test should connect to NCBI, download a small amount of data from SRR390728 and the reference sequence needed to extract the data, and stream the first 5 spots of the file ("-X 5" option) to the screen ("-Z" option)._
 *  Now we are ready to download the fastq files we will analyze
-	* Here are our RNA-seq data in GEO with accession number [GSE55536](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55536). 
+* Here are our RNA-seq data in GEO with accession number [GSE55536](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55536).    
+
 <div> 
   <img src="{{ '/images/HMDM_IPSDM.png' | absolute_url }}" alt="HMDM_IPSDM" width="600">
 </div>   
@@ -76,7 +77,7 @@ If you need a refresher, or have never used R before, please step through these 
 	**M0**: Resting HMDM without stimulation;   
 	**M1**: HMDM treated with endotoxin and interferon-gamma for 18-20 hours to induce inflammatoryresponse.   
 
-	* Use the command line below in terminal to download the fastq file (for now let's do it one by one). The code means "to only download the first 1M reads from SRR, and split the pair-end reads".   
+* Use the command line below in terminal to download the fastq file (for now let's do it one by one). The code means "to only download the first 1M reads from SRR, and split the pair-end reads".   
 	
 		**Make sure you "cd" into /bin first.**  
 		
@@ -86,10 +87,10 @@ If you need a refresher, or have never used R before, please step through these 
 			$ ./fastq-dump -X 1000000 --split-files SRR1182376 
 			$ ./fastq-dump -X 1000000 --split-files SRR1182377  
 			$ ./fastq-dump -X 1000000 --split-files SRR2910664   
-	* Alternatively, can use "prefetch" to download the fastq file.  
-	 `	$ ./sratoolkit.2.9.1-1-mac64/bin/prefetch SRR1182374 `   
+* Alternatively, can use "prefetch" to download the fastq file.  
+	                $ ./sratoolkit.2.9.1-1-mac64/bin/prefetch SRR1182374     
+			
 	  
-	 		
 	
 ### 3.4 Build salmon index
 * First "cd" into the directory with the gencode GTF and Fasta files.
