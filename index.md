@@ -62,7 +62,7 @@ If you need a refresher, or have never used R before, please step through these 
   <img src="{{ '/images/HMDM_IPSDM.png' | absolute_url }}" alt="HMDM_IPSDM" width="600">
 </div>   
 
-	* There are totally 33 samples. Let's try 6 samples.   
+* There are totally 33 samples. Let's try 6 samples.   
 
 	| Sample ID     | SRR        | Description          |  
 	|:------------- |:----------:| :-------------------:|  
@@ -73,13 +73,13 @@ If you need a refresher, or have never used R before, please step through these 
 	| HMDM M1 Rep2  | SRR1182377 | M1-HMDM, Replicate 2 |  
 	| HMDM M1 Rep3  | SRR2910664 | M1-HMDM, Replicate 3 |   
 	      
-	**HMDM**: human monocyte-derived macrophages;  
-	**M0**: Resting HMDM without stimulation;   
-	**M1**: HMDM treated with endotoxin and interferon-gamma for 18-20 hours to induce inflammatoryresponse.   
+**HMDM**: human monocyte-derived macrophages;  
+**M0**: Resting HMDM without stimulation;   
+**M1**: HMDM treated with endotoxin and interferon-gamma for 18-20 hours to induce inflammatoryresponse.   
 
 * Use the command line below in terminal to download the fastq file (for now let's do it one by one). The code means "to only download the first 1M reads from SRR, and split the pair-end reads".   
 	
-		**Make sure you "cd" into /bin first.**  
+**Make sure you "cd" into /bin first.**  
 		
 			$ ./fastq-dump -X 1000000 --split-files SRR1182374     
 	  		$ ./fastq-dump -X 1000000 --split-files SRR1182375  
@@ -88,7 +88,7 @@ If you need a refresher, or have never used R before, please step through these 
 			$ ./fastq-dump -X 1000000 --split-files SRR1182377  
 			$ ./fastq-dump -X 1000000 --split-files SRR2910664   
 * Alternatively, can use "prefetch" to download the fastq file.  
-	                $ ./sratoolkit.2.9.1-1-mac64/bin/prefetch SRR1182374     
+	                `$ ./sratoolkit.2.9.1-1-mac64/bin/prefetch SRR1182374`         
 			
 	  
 	
