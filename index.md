@@ -142,9 +142,9 @@ If you need a refresher, or have never used R before, please step through these 
 
 
 
-## 6. Exploratory analysis and differnetial expression
+## 6. Exploratory analysis and visualization
 
-* Continue using the Rmd file above, which was modified from [this workflow](https://www.bioconductor.org/packages/devel/workflows/vignettes/rnaseqGene/inst/doc/rnaseqGene.html).  
+* Continue using the Rmd file above, which is modified from this [workflow](https://www.bioconductor.org/packages/devel/workflows/vignettes/rnaseqGene/inst/doc/rnaseqGene.html).  
 
 ## 7. Additional resources
 
