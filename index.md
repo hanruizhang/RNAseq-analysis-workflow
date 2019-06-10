@@ -1,4 +1,4 @@
-**07/10/2019** [Zhang Lab@Columbia](https://hanruizhang.github.io/zhanglab/) by [Hanrui Zhang](https://github.com/hanruizhang)
+[Zhang Lab@Columbia](https://hanruizhang.github.io/zhanglab/) by [Hanrui Zhang](https://github.com/hanruizhang) [2019-06-10]
 
 ## 1. Introduction to RNA-seq
 This [video](https://www.youtube.com/watch?v=08h3-05Y9JY) provides a thorough introduction about RNA-seq.
