@@ -27,7 +27,7 @@ If you need a refresher, or have never used R before, please step through these 
 
 ### 3.1 Install Salmon
 
-* Follow the [instruction] (https://combine-lab.github.io/salmon/getting_started/) to install salmon via bioconda.  
+* Follow the [instruction](https://combine-lab.github.io/salmon/getting_started/) to install salmon via bioconda.  
 	`$ conda config --add channels conda-forge`  
 	`$ conda config --add channels bioconda`  
 	`$ conda create -n salmon salmon`  
