@@ -19,13 +19,13 @@ If you need a refresher, or have never used R before, please step through these 
 	* [HarvardX Biomedical Data Science Open Online Training](https://rafalab.github.io/pages/harvardx.html)
 	* [R for data science](https://r4ds.had.co.nz/index.html)
 
-## 2. Install Miniconda
+## 3. Install Miniconda
 * Go [here](https://docs.conda.io/en/latest/miniconda.html) to download Miniconda
 * Follow the instruction for installation on [macOS](https://conda.io/projects/conda/en/latest/user-guide/install/macos.html) or [Windows](https://conda.io/projects/conda/en/latest/user-guide/install/windows.html)
 
-## 3. Salmon: Transcript quantification from RNA-seq data
+## 4. Salmon: Transcript quantification from RNA-seq data
 
-### 3.1 Install Salmon
+### 4.1 Install Salmon
 
 * Follow the [instruction](https://combine-lab.github.io/salmon/getting_started/) to install salmon via bioconda.  
 	`$ conda config --add channels conda-forge`  
@@ -41,14 +41,14 @@ If you need a refresher, or have never used R before, please step through these 
 * Use the following command line to get the help file for all the arguments.  
 	`	$ salmon quant –h   `
 
-### 3.2 Download Gencode annodation
+### 4.2 Download Gencode annodation
 [https://www.gencodegenes.org/](https://www.gencodegenes.org/).  
  
 * Download the release you need (we use human v30 in this workflow)
 * Download both the GTF and the Fasta file   
 
 
-### 3.3 Obtain fastq file from SRA
+### 4.3 Obtain fastq file from SRA
 * The first step is to install [SRA Toolkit](https://ncbi.github.io/sra-tools/install_config.html)
 * To test whether the installation is successful, Open a terminal or command prompt and "cd" into the directory containing the toolkit executables
 (e.g., [download_location]/sratoolkit[version]/bin/).  
@@ -93,7 +93,7 @@ If you need a refresher, or have never used R before, please step through these 
 			
 	  
 	
-### 3.4 Build salmon index
+### 4.4 Build salmon index
 * First "cd" into the directory with the gencode GTF and Fasta files.
 * The "--" is to trim the extra symbols in GENCODE for convenience to handle the data later. 
 * Make sure to use `$ salmon --version` to check the Salmon version and change the index name in the code accordingly. 
@@ -102,7 +102,7 @@ If you need a refresher, or have never used R before, please step through these 
         $ source activate salmon
         $ salmon index -t gencode.v30.transcripts.fa.gz -i gencode.v30_salmon_0.14.0 --gencode
 
-### 3.5 Perform quantification using Salmon
+### 4.5 Perform quantification using Salmon
 
   * Make sure the Salmon index folder and all of your fastq files are in the same directory and you are in the directory.   
 
@@ -120,7 +120,7 @@ If you need a refresher, or have never used R before, please step through these 
 
 
 
-## 4. QC of the RNA-seq data using MultiQC
+## 5. QC of the RNA-seq data using MultiQC
 * Install [MultiQC](https://multiqc.info/)   
 
          $ pip install multiqc  
@@ -133,7 +133,7 @@ If you need a refresher, or have never used R before, please step through these 
 	**Multiqc will search in the current directory, so make sure you are in the directory with Salmon Quant folders.**
 * You may read the documents to understand how to interpret the QC data.  
 	  
-## 5.  tximport: Importing salmon’s transcript-level quantifications and aggregate them to the gene level for gene-level differential expression analysis 
+## 6.  tximport: Importing salmon’s transcript-level quantifications and aggregate them to the gene level for gene-level differential expression analysis 
 * From now on, everything is done in RStudio. And here is the [Rmd file]().
 * The Rmd file is modified from the Workflows below, which have more detailed explaination.  
 
@@ -143,11 +143,11 @@ If you need a refresher, or have never used R before, please step through these 
 
 
 
-## 6. Exploratory analysis and visualization
+## 7. Exploratory analysis and visualization
 
 * Continue using the Rmd file above, which is modified from this [workflow](https://www.bioconductor.org/packages/devel/workflows/vignettes/rnaseqGene/inst/doc/rnaseqGene.html).  
 
-## 7. Additional resources
+## 8. Additional resources
 
 * [https://seandavi.github.io/ITR/](https://seandavi.github.io/ITR/)
 		  
