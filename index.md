@@ -1,3 +1,10 @@
+---
+title: "RNAseq-analysis-workflow"
+output:
+    html_document:
+        toc: false
+---
+
 [Zhang Lab@Columbia](https://hanruizhang.github.io/zhanglab/) by [Hanrui Zhang](https://github.com/hanruizhang) [2019-06-10]
 
 ## 1. Introduction to RNA-seq
