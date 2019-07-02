@@ -1,0 +1,238 @@
+---
+title: "Gene-level exploratory analysis and differential expression"
+output: html_notebook
+---
+
+Now you have completed the transcript-level quantification using Salmon. The next step is to use txiimport to aggregate the data to gene-level for downstream analysis, e.g. differential expression analysis by DESeq2.
+
+# Setwd and load necessary packages
+you may need to install some of the packages.
+```{r}
+setwd("~/Documents/RNAseq_Bootcamp")
+getwd()
+library("devtools")
+library("BiocStyle")
+library("knitr")
+library("rmarkdown")
+library("dplyr")
+library("ggplot2")
+library("pheatmap")
+library("RColorBrewer")
+```
+
+# Install txiimport
+```{r}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("tximport")
+# To view documentation
+browseVignettes("tximport")
+# Load txiimport
+library(tximport)
+```
+
+# Prepare coldata table that contains the sample information
+```{r}
+# Create a csv file containing the sample information and locate the directory containing the file
+dir = "/Users/hanruizhang/Documents/RNAseq_Bootcamp"
+list.files(dir)
+# Read the file and check everything looks correct
+coldata <- read.csv("GSE55536_sample.csv", header = TRUE)
+head(coldata)
+list.files(file.path(dir,"GSE55536_quants"))
+colnames(coldata)
+idx <- c("id","subject","treatment")
+coldata[,idx]
+levels(coldata$id)
+coldata$subject <- as.factor(coldata$subject) # change numeric number of subject id to factor
+levels(coldata$subject)
+levels(coldata$treatment)
+```
+# Define files for tximport to read by create a named vector pointing to the quantification files 
+```{r}
+files <- file.path(dir,"GSE55536_quants",coldata$id,"quant.sf")
+names(files) <- coldata$id
+all(file.exists(files)) # the output should be "TRUE"
+files
+```
+
+# Create a data.frame to associate transcript ID with gene ID 
+This data.frame is required because transcripts IDs in salmon need to be associated with gene IDs for gene-level summarization
+```{r}
+## Make TxDb - saveDb to make it quicker next time
+BiocManager::install("rtracklayer")
+BiocManager::install("GenomicFeatures")
+library(rtracklayer)
+library(GenomicFeatures)
+gtf <- "gencode.v30.annotation.gtf.gz"
+txdb.filename <- "gencode.v30.annotation.sqlite"
+txdb <- makeTxDbFromGFF(gtf) # This step takes some time.
+saveDb(txdb, txdb.filename)
+k <- keys(txdb, keytype = "TXNAME")
+tx2gene <- select(txdb, k, "GENEID", "TXNAME")
+head(tx2gene)
+
+```
+# Import data table from Salmon output using txiimport
+```{r}
+library("tximport")
+library("jsonlite")
+library("readr") # the "readr" makes tximport quicker
+txi <- tximport(files, type="salmon", tx2gene=tx2gene)
+```
+
+# Now check your txi - the SummarizedExperiment object
+```{r}
+names(txi)
+txi$counts[1:3,1:3]
+txi$length[1:3,1:3]
+txi$abundance[1:3,1:3]
+txi$countsFromAbundance
+```
+# Create a _DESeqDataSet_ object
+```{r}
+# Construct a DESeqDataSet (dds) using txi
+library("DESeq2")
+dds <- DESeqDataSetFromTximport(txi, coldata, design = ~subject + treatment) # dds is now ready for DESeq() see DESeq2 vignette
+genetable <- data.frame(gene.id = rownames(txi$counts)) 
+names(assays(dds))
+
+# EdgeR
+library("edgeR")
+cts <- txi$counts
+normMat <- txi$length
+normMat <- normMat/exp(rowMeans(log(normMat)))
+o <- log(calcNormFactors(cts/normMat)) + log(colSums(cts/normMat))
+dge <- DGEList(counts = cts,
+               samples = coldata,
+               genes = genetable)
+dge <- scaleOffset(dge, t(t(log(normMat)) + o))
+names(dge)
+```
+
+# Pre-filtering the DE data
+```{r}
+# dds
+nrow(dds)
+dds <- dds[ rowSums(counts(dds)) > 1, ]
+nrow(dds)
+# dge
+dge <- dge[rowSums(round(dge$counts)) > 1, ]
+all(rownames(dge) == rownames(dds))
+dge <- dge[filterByExpr(dge),]
+```
+## Variance stablizing transformation
+
+```{r}
+library("vsn")
+# Transformation with vst (for n>30)
+vsd <- vst(dds, blind = FALSE)
+head(assay(vsd), 3)
+meanSdPlot(assay(vsd), ranks = FALSE)
+# Transformation with rlog (for n<30)
+rld <- rlog(dds, blind = FALSE)
+head(assay(rld), 3)
+meanSdPlot(assay(rld), ranks = FALSE)
+```
+# Plot sample distance
+```{r}
+# Plot sample-to-sample distances using the rlog-transformed values
+sampleDists <- dist(t(assay(rld)))
+sampleDists
+sampleDistMatrix <- as.matrix(sampleDists)
+rownames(sampleDistMatrix) <- paste(rld$treatment, rld$subject, sep = " - ")
+colnames(sampleDistMatrix) <- NULL
+colors <- colorRampPalette(rev(brewer.pal(9, "Blues")))(255)
+pheatmap(sampleDistMatrix,
+         clustering_distance_rows = sampleDists,
+         clustering_distance_cols = sampleDists,
+         col = colors)
+# Plot sample-to-sample distances using the Poisson distance
+library("PoiClaClu")
+poisd <- PoissonDistance(t(counts(dds)))
+samplePoisDistMatrix <- as.matrix(poisd$dd)
+rownames(samplePoisDistMatrix) <- paste(vsd$treatment, vsd$subject, sep = " - ")
+colnames(samplePoisDistMatrix) <- NULL
+pheatmap(samplePoisDistMatrix,
+         clustering_distance_rows = poisd$dd,
+         clustering_distance_cols = poisd$dd,
+         col = colors)
+```
+# PCA plot
+```{r}
+### PCA plot using DESeq2
+plotPCA(vsd, intgroup = c("treatment", "subject"))
+### PCA plot using qqplot
+pcaData <- plotPCA(vsd, intgroup = c("treatment", "subject"), returnData = TRUE)
+pcaData
+percentVar <- round(100 * attr(pcaData, "percentVar"))
+ggplot(pcaData, aes(x = PC1, y = PC2, color = treatment, shape = subject)) +
+  geom_point(size =3) +
+  xlab(paste0("PC1: ", percentVar[1], "% variance")) +
+  ylab(paste0("PC2: ", percentVar[2], "% variance")) +
+  coord_fixed()
+```
+# MDS plot
+```{r}
+# MDS plot from the VST data
+mds <- as.data.frame(colData(vsd))  %>%
+  cbind(cmdscale(sampleDistMatrix))
+ggplot(mds, aes(x = `1`, y = `2`, color = treatment, shape = subject)) +
+  geom_point(size = 3) + coord_fixed()
+# MDS plot with poisson distribution
+mdsPois <- as.data.frame(colData(dds)) %>%
+  cbind(cmdscale(samplePoisDistMatrix))
+ggplot(mdsPois, aes(x = `1`, y = `2`, color = treatment, shape = subject)) +
+  geom_point(size = 3) + coord_fixed()
+```
+# Differential expression (DE) analysis
+```{r}
+dds <- DESeq(dds)
+res <- results(dds)
+head(res)
+res <- results(dds, contrast = c("treatment", "M0", "M1"))
+mcols(res, use.names = TRUE)
+summary(res)
+res.05 <- results(dds, alpha = 0.05)
+table(res.05$padj < 0.05)
+resLFC1 <- results(dds, lfcThreshold = 1)
+table(resLFC1$padj < 0.05)
+dim(resLFC1)
+```
+# Multiple testing
+```{r}
+sum(res$pvalue < 0.05, na.rm=TRUE)
+sum(!is.na(res$pvalue))
+sum(res$padj < 0.1, na.rm=TRUE)
+resSig <- subset(res, padj < 0.1)
+head(resSig[ order(resSig$log2FoldChange), ])
+head(resSig[ order(resSig$log2FoldChange, decreasing = TRUE), ])
+```
+# Plotting results
+```{r}
+topGene <- rownames(res)[which.min(res$padj)]
+plotCounts(dds, gene = topGene, intgroup=c("treatment"))
+library("ggbeeswarm")
+geneCounts <- plotCounts(dds, gene = topGene, intgroup = c("treatment","subject"),
+                         returnData = TRUE)
+ggplot(geneCounts, aes(x = treatment, y = count, color = subject)) +
+  scale_y_log10() +  geom_beeswarm(cex = 3)
+```
+# Clustering by the top variable genes
+```{r}
+library("genefilter")
+topVarGenes <- head(order(rowVars(assay(vsd)), decreasing = TRUE), 20)
+mat  <- assay(vsd)[ topVarGenes, ]
+mat  <- mat - rowMeans(mat)
+anno <- as.data.frame(colData(vsd)[, c("subject","treatment")])
+pheatmap(mat, annotation_col = anno)
+```
+# Annotating and exporting results
+```{r}
+# Ordered the results
+resOrdered <- res[order(res$pvalue),]
+head(resOrdered)
+# Write csv
+write.csv(res, "GSE55536_DESeq2.csv")
+```
+ 
