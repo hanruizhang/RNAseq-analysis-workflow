@@ -134,7 +134,7 @@ If you need a refresher, or have never used R before, please step through these 
 * You may read the documents to understand how to interpret the QC data.  
 	  
 ## 6.  tximport: Importing salmon’s transcript-level quantifications and aggregate them to the gene level for gene-level differential expression analysis 
-* From now on, everything is done in RStudio. And here is the [Rmd file](hanruizhang/RNAseq-analysis-workflow).
+* From now on, everything is done in RStudio. And here is the [Rmd file](RNAseq_Bootcamp_GSE55536.Rmd).
 * The Rmd file is modified from the Workflows below, which have more detailed explaination.  
 
 	[https://f1000research.com/articles/7-952/v1](https://f1000research.com/articles/7-952/v1)
