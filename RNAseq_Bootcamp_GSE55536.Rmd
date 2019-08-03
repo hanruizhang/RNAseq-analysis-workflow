@@ -1,8 +1,9 @@
 ---
 title: "Gene-level exploratory analysis and differential expression"
-output:
-    html_document:
-        toc: false
+author: "Hanrui Zhang"
+date: "08/02/2019"
+output: html_document
+
 ---
 
 Now you have completed the transcript-level quantification using Salmon. The next step is to use txiimport to aggregate the data to gene-level for downstream analysis, e.g. differential expression analysis by DESeq2.
