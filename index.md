@@ -48,10 +48,11 @@ If you need a refresher, or have never used R before, please step through these 
 * Use the following command line to get the help file for all the arguments.  
 	`	$ salmon quant –h   `
 
-### 4.2 Download Gencode annodation
-[https://www.gencodegenes.org/](https://www.gencodegenes.org/).  
- 
-* Download the release you need (we use human v30 in this workflow)
+### 4.2 Download Gencode annotation
+
+* Go [here](https://www.gencodegenes.org/) to downlead the necessary files 
+* Download the release you need (we use [human v30](https://www.gencodegenes.org/human/release_30.html)
+ in this workflow)
 * Download both the GTF and the Fasta file   
 
 
@@ -62,6 +63,7 @@ If you need a refresher, or have never used R before, please step through these 
 	* For Linux/Mac OSX: ./fastq-dump -X 5 -Z SRR390728.  
 	* For Windows:fastq-dump.exe -X 5 -Z SRR390728.   
 	_If successful, the test should connect to NCBI, download a small amount of data from SRR390728 and the reference sequence needed to extract the data, and stream the first 5 spots of the file ("-X 5" option) to the screen ("-Z" option)._
+* If the installation was unsuccessful, the toolkit may need to be reconfigured and adjusted to the default settings. The guide can also be found [above](https://ncbi.github.io/sra-tools/install_config.html).
 *  Now we are ready to download the fastq files we will analyze
 * Here are our RNA-seq data in GEO with accession number [GSE55536](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55536).    
 
@@ -103,23 +105,23 @@ If you need a refresher, or have never used R before, please step through these 
 ### 4.4 Build salmon index
 * First "cd" into the directory with the gencode GTF and Fasta files.
 * The "--" is to trim the extra symbols in GENCODE for convenience to handle the data later. 
-* Make sure to use `$ salmon --version` to check the Salmon version and change the index name in the code accordingly. 
+* Make sure to use `$ salmon --version` to check the Salmon version and change the index name in the code accordingly.
 * This step will take a few minutes. 
 
         $ source activate salmon
-        $ salmon index -t gencode.v30.transcripts.fa.gz -i gencode.v30_salmon_0.14.0 --gencode
+        $ salmon index -t gencode.v30.transcripts.fa.gz -i gencode.v30_salmon_1.2.1 --gencode
 
 ### 4.5 Perform quantification using Salmon
 
   * Make sure the Salmon index folder and all of your fastq files are in the same directory and you are in the directory.   
 
 
-		$ salmon quant -i gencode.v30_salmon_0.14.0 -p 8 --libType A --validateMappings --gcBias --biasSpeedSamp 5 -1 SRR1182374_1.fastq  -2 SRR1182374_2.fastq   -o M0_HMDM_1
-		$ salmon quant -i gencode.v30_salmon_0.14.0 -p 8 --libType A --validateMappings --gcBias --biasSpeedSamp 5 -1 SRR1182375_1.fastq  -2 SRR1182375_2.fastq   -o M0_HMDM_2
-		$ salmon quant -i gencode.v30_salmon_0.14.0 -p 8 --libType A --validateMappings --gcBias --biasSpeedSamp 5 -1 SRR2910663_1.fastq  -2 SRR2910663_2.fastq   -o M0_HMDM_3
-		$ salmon quant -i gencode.v30_salmon_0.14.0 -p 8 --libType A --validateMappings --gcBias --biasSpeedSamp 5 -1 SRR1182376_1.fastq  -2 SRR1182376_2.fastq   -o M1_HMDM_1 
-		$ salmon quant -i gencode.v30_salmon_0.14.0 -p 8 --libType A --validateMappings --gcBias --biasSpeedSamp 5 -1 SRR1182377_1.fastq  -2 SRR1182377_2.fastq   -o M1_HMDM_2
-		$ salmon quant -i gencode.v30_salmon_0.14.0 -p 8 --libType A --validateMappings --gcBias --biasSpeedSamp 5 -1 SRR2910664_1.fastq  -2 SRR2910664_2.fastq   -o M1_HMDM_3
+		$ salmon quant -i gencode.v30_salmon_1.2.1 -p 8 --libType A --validateMappings --gcBias --biasSpeedSamp 5 -1 SRR1182374_1.fastq  -2 SRR1182374_2.fastq   -o M0_HMDM_1
+		$ salmon quant -i gencode.v30_salmon_1.2.1 -p 8 --libType A --validateMappings --gcBias --biasSpeedSamp 5 -1 SRR1182375_1.fastq  -2 SRR1182375_2.fastq   -o M0_HMDM_2
+		$ salmon quant -i gencode.v30_salmon_1.2.1 -p 8 --libType A --validateMappings --gcBias --biasSpeedSamp 5 -1 SRR2910663_1.fastq  -2 SRR2910663_2.fastq   -o M0_HMDM_3
+		$ salmon quant -i gencode.v30_salmon_1.2.1 -p 8 --libType A --validateMappings --gcBias --biasSpeedSamp 5 -1 SRR1182376_1.fastq  -2 SRR1182376_2.fastq   -o M1_HMDM_1 
+		$ salmon quant -i gencode.v30_salmon_1.2.1 -p 8 --libType A --validateMappings --gcBias --biasSpeedSamp 5 -1 SRR1182377_1.fastq  -2 SRR1182377_2.fastq   -o M1_HMDM_2
+		$ salmon quant -i gencode.v30_salmon_1.2.1 -p 8 --libType A --validateMappings --gcBias --biasSpeedSamp 5 -1 SRR2910664_1.fastq  -2 SRR2910664_2.fastq   -o M1_HMDM_3
 			
 		
 		
@@ -130,8 +132,7 @@ If you need a refresher, or have never used R before, please step through these 
 ## 5. QC of the RNA-seq data using MultiQC
 * Install [MultiQC](https://multiqc.info/)   
 
-         $ pip install multiqc  
-         $ multiqc --version
+         $ conda install -c bioconda -c conda-forge multiqc
          
 * Run multiqc
 
@@ -160,9 +161,6 @@ If you need a refresher, or have never used R before, please step through these 
 		  
 
 **Materials here are licensed as [CC BY-NC-SA 4.0 Creative Commons License](https://creativecommons.org/licenses/by-nc-sa/4.0/).**
-		  
-	
-
 	
 
 	
