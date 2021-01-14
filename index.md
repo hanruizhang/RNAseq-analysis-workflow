@@ -151,9 +151,10 @@ If you need a refresher, or have never used R before, please step through these 
 
 
 
-## 7. Exploratory analysis and visualization
+## 7. Exploratory analysis and visualization, and DESeq2 analysis
 
 * Continue using the Rmd file above, which is modified from this [workflow](https://www.bioconductor.org/packages/devel/workflows/vignettes/rnaseqGene/inst/doc/rnaseqGene.html).  
+* Analyzing RNA-seq data with DESeq2 [vignettes](https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#pvaluesNA).      
 
 ## 8. Additional resources
 
