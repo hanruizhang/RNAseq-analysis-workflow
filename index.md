@@ -46,7 +46,7 @@ If you need a refresher, or have never used R before, please step through these 
 	`$ conda deactivate`
 	
 * Use the following command line to get the help file for all the arguments.  
-	`	$ salmon quant –h   `
+	`$ salmon quant –h`
 
 ### 4.2 Download Gencode annotation
 
