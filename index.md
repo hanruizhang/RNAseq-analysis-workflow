@@ -161,6 +161,7 @@ If you need a refresher, or have never used R before, please step through these 
 * [https://seandavi.github.io/ITR/](https://seandavi.github.io/ITR/)   
 * Making Venn Diagram:
 	* [Biovenn](https://www.biovenn.nl/index.php)
+* [Submitting data to GEO](https://www.ncbi.nlm.nih.gov/geo/info/seq.html)
 		  
 
 **Materials here are licensed as [CC BY-NC-SA 4.0 Creative Commons License](https://creativecommons.org/licenses/by-nc-sa/4.0/).**
